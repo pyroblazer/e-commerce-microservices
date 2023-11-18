@@ -1,0 +1,68 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
+version: 2.1
+
+executors:
+  docker:  # Define executor to use Docker
+    docker:  # Use Docker as the executor
+      - image: docker:stable  # Use the stable Docker image
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/configuration-reference/#jobs
+jobs:
+  # proses jobs lint dockerfile untuk file backend
+  lint-order-service-dockerfile:
+    docker:
+      - image: docker:stable
+    # steps dari setiap jobs, tidak dikomen karena sudah ada di name
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Linting Order Service Dockerfile
+          command: docker run --rm -i hadolint/hadolint < order_service/Dockerfile 
+  # build docker file dan push ke ghcr
+  build-app-order-service:
+    docker:
+      - image: docker:stable
+    # steps dari setiap jobs, tidak dikomen karena sudah ada di name
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build and Push the Order Service Docker Image
+          command: cd order_service && build_push_image.sh
+
+  lint-shipping-service-dockerfile:
+    docker:
+      - image: docker:stable
+    # steps dari setiap jobs, tidak dikomen karena sudah ada di name
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Linting Shipping Service Dockerfile
+          command: docker run --rm -i hadolint/hadolint < shipping_service/Dockerfile 
+
+  # build docker file dan push ke ghcr
+  build-app-shipping-service:
+    docker:
+      - image: docker:stable
+    # steps dari setiap jobs, tidak dikomen karena sudah ada di name
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build and Push the Shipping Service Docker Image
+          command: cd shipping_service && build_push_image.sh
+
+workflows:
+  version: 2
+  order-service-workflow:
+    jobs:
+      - lint-order-service-dockerfile
+      - build-app-order-service
+  shipping-service-workflow:
+    jobs:
+      - lint-shipping-service-dockerfile
+      - build-app-shipping-service

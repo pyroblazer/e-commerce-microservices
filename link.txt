@@ -1,0 +1,2 @@
+ghcr.io/pyroblazer/order-service:latest
+ghcr.io/pyroblazer/shipping-service:latest
