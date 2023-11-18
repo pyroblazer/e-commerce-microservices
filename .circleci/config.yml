@@ -20,7 +20,8 @@ jobs:
       - setup_remote_docker
       - run:
           name: Linting Order Service Dockerfile
-          command: docker run --rm -i hadolint/hadolint < order_service/Dockerfile 
+          command: docker run --rm -i hadolint/hadolint < order-service/Dockerfile
+          
   # build docker file dan push ke ghcr
   build-app-order-service:
     docker:
@@ -31,7 +32,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build and Push the Order Service Docker Image
-          command: cd order_service && build_push_image.sh
+          command: cd order-service && sh build_push_image.sh
 
   lint-shipping-service-dockerfile:
     docker:
@@ -42,7 +43,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Linting Shipping Service Dockerfile
-          command: docker run --rm -i hadolint/hadolint < shipping_service/Dockerfile 
+          command: docker run --rm -i hadolint/hadolint < shipping-service/Dockerfile
 
   # build docker file dan push ke ghcr
   build-app-shipping-service:
@@ -54,15 +55,19 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build and Push the Shipping Service Docker Image
-          command: cd shipping_service && build_push_image.sh
+          command: cd shipping-service && sh build_push_image.sh
 
 workflows:
   version: 2
   order-service-workflow:
     jobs:
       - lint-order-service-dockerfile
-      - build-app-order-service
+      - build-app-order-service:
+          requires: 
+            - lint-order-service-dockerfile
   shipping-service-workflow:
     jobs:
       - lint-shipping-service-dockerfile
-      - build-app-shipping-service
+      - build-app-shipping-service:
+          requires:
+            - lint-shipping-service-dockerfile

@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: shipping
-  namespace: dicoding
+  name: shipping  # Unique name for this Kubernetes Service
+  namespace: dicoding  # Namespace for organizational purposes
   labels:
-    app: e-commerce
-    tier: services
+    app: e-commerce  # Application label for grouping resources
+    tier: services   # Tier label indicating the service level
 spec:
   selector:
-    app: e-commerce
-    tier: services
+    app: e-commerce  # Selector to match pods with this app label
+    tier: services   # Selector to match pods with this tier label
   ports:
-    - name: default
-      port: 3001
-      protocol: TCP
+    - name: default  # Name for the service port
+      port: 3001  # Port number for incoming traffic
+      protocol: TCP  # Protocol for the port (TCP)

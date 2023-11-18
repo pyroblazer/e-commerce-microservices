@@ -28,6 +28,16 @@ cd ..
 
 Follow the Helm installation guide [here](https://helm.sh/docs/intro/install/).
 
+### Install Minikube
+
+Follow the Minikube installation guide [here](https://minikube.sigs.k8s.io/docs/start/).
+
+### Launch Minikube
+
+```bash
+minikube start
+```
+
 ### Install Istio
 
 Download and install Istio (last tested with version 1.19.3):

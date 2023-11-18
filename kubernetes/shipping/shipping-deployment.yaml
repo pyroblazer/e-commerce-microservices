@@ -1,35 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shipping
+  name: shipping  # Unique name for this Kubernetes Deployment
   labels:
-    app: e-commerce
-    tier: services
-  namespace: dicoding
+    app: e-commerce  # Application label for grouping resources
+    tier: services   # Tier label indicating the service level
+  namespace: dicoding  # Namespace for organizational purposes
 spec:
-  replicas: 1
+  replicas: 1  # Number of desired replicas for the deployment
   selector:
     matchLabels:
-      app: e-commerce
-      tier: services
+      app: e-commerce  # Selector to match pods with this app label
+      tier: services   # Selector to match pods with this tier label
   template:
     metadata:
       labels:
-        app: e-commerce
-        tier: services
+        app: e-commerce  # Labels for the pods created by this template
+        tier: services   # Labels for the pods created by this template
     spec:
       containers:
-        - name: shipping
-          image: ghcr.io/pyroblazer/shipping-service:latest
+        - name: shipping  # Container name for identifying the pod
+          image: ghcr.io/pyroblazer/shipping-service:latest  # Docker image for the container
           ports:
-            - containerPort: 3001
+            - containerPort: 3001  # Port on which the container will listen
           env:
             - name: PORT
-              value: "3001"
+              value: "3001"  # Port value for the application
             - name: AMQP_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: my-rabbitmq
-                  key: rabbitmq-password
+                  name: my-rabbitmq  # Secret name for AMQP credentials
+                  key: rabbitmq-password  # Key within the secret for AMQP password
             - name: AMQP_URL
               value: "amqp://user:$(AMQP_PASSWORD)@my-rabbitmq:5672"
+              # Connection URL using the AMQP password from the secret

@@ -1,2 +1,4 @@
 ghcr.io/pyroblazer/order-service:latest
 ghcr.io/pyroblazer/shipping-service:latest
+
+https://github.com/pyroblazer/e-commerce-microservices

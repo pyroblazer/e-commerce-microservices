@@ -1,15 +1,15 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: order-gateway
-  namespace: dicoding
+  name: order-gateway  # Unique name for this Istio Gateway
+  namespace: dicoding  # Namespace for organizational purposes
 spec:
   selector:
-    istio: ingressgateway
+    istio: ingressgateway  # Selector to identify the Ingress Gateway
   servers:
   - port:
-      number: 80
-      name: http
-      protocol: HTTP
+      number: 80  # Port number for incoming traffic
+      name: http  # Name for the HTTP port
+      protocol: HTTP  # Protocol for the port (HTTP)
     hosts:
-    - "*"
+    - "*"  # Hostname wildcard to match any host

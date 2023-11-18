@@ -1,19 +1,19 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: order
-  namespace: dicoding
+  name: order  # Unique name for this Istio VirtualService
+  namespace: dicoding  # Namespace for organizational purposes
 spec:
   hosts:
-    - "*"
+    - "*"  # Hostname wildcard to match any host
   gateways:
-    - order-gateway
+    - order-gateway  # Gateway that this VirtualService is associated with
   http:
     - match:
         - uri:
-            exact: "/order"
+            exact: "/order"  # Exact URI match for "/order"
       route:
         - destination:
-            host: order
+            host: order  # Destination service hostname
             port:
-              number: 3000
+              number: 3000  # Destination service port number
